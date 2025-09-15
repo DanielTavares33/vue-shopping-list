@@ -1,8 +1,62 @@
 @import 'tailwindcss';
+@plugin 'daisyui';
+@plugin "daisyui/theme" {
+    name: 'grocery';
+    default: true; /* set as default */
+    prefersdark: false; /* set as default dark mode (prefers-color-scheme:dark) */
+    color-scheme: light; /* color of browser-provided UI */
+
+    /* base */
+    --color-base-100: oklch(98% 0.02 240); /* #f9fafb */
+    --color-base-200: oklch(95% 0.02 240); /* #f3f4f6 */
+    --color-base-300: oklch(92% 0.03 240); /* #e5e7eb */
+    --color-base-content: oklch(20% 0.03 250); /* #111827 */
+
+    /* primary (fresh green) */
+    --color-primary: oklch(75% 0.17 155); /* #34d399 */
+    --color-primary-content: oklch(98% 0.01 240); /* white */
+
+    /* secondary (golden yellow) */
+    --color-secondary: oklch(85% 0.19 90); /* #fbbf24 */
+    --color-secondary-content: oklch(20% 0.05 80); /* dark gray */
+
+    /* accent (orange fruit) */
+    --color-accent: oklch(70% 0.23 50); /* #f97316 */
+    --color-accent-content: oklch(98% 0.01 240); /* white */
+
+    /* neutral (dark gray) */
+    --color-neutral: oklch(40% 0.04 250); /* #374151 */
+    --color-neutral-content: oklch(95% 0.02 240); /* #f3f4f6 */
+
+    /* info / success / warning / error */
+    --color-info: oklch(65% 0.22 250); /* #3b82f6 */
+    --color-info-content: oklch(98% 0.01 240);
+
+    --color-success: oklch(65% 0.24 140); /* #22c55e */
+    --color-success-content: oklch(98% 0.01 240);
+
+    --color-warning: oklch(85% 0.2 95); /* #facc15 */
+    --color-warning-content: oklch(20% 0.05 80);
+
+    --color-error: oklch(60% 0.25 30); /* #ef4444 */
+    --color-error-content: oklch(98% 0.01 240);
+
+    /* border radius */
+    --radius-selector: 1rem;
+    --radius-field: 0.25rem;
+    --radius-box: 0.5rem;
+
+    /* base sizes */
+    --size-selector: 0.25rem;
+    --size-field: 0.25rem;
+
+    /* border size */
+    --border: 1px;
+
+    /* effects */
+    --depth: 1;
+    --noise: 0;
+}
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
-
-@theme inline {
-    --font-sans: Instrument Sans, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-}
