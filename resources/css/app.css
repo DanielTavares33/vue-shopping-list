@@ -7,9 +7,9 @@
     color-scheme: light; /* color of browser-provided UI */
 
     /* base */
-    --color-base-100: oklch(98% 0.02 240); /* #f9fafb */
-    --color-base-200: oklch(95% 0.02 240); /* #f3f4f6 */
-    --color-base-300: oklch(92% 0.03 240); /* #e5e7eb */
+    --color-base-100: oklch(99% 0.01 240); /* #ffffff */
+    --color-base-200: oklch(97% 0.01 240); /* #f7f7fa */
+    --color-base-300: oklch(94% 0.02 240); /* #f0f1f4 */
     --color-base-content: oklch(20% 0.03 250); /* #111827 */
 
     /* primary (fresh green) */
