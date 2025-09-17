@@ -4,6 +4,16 @@ import Search from '@/components/Search.vue';
 import MainLayout from '@/layouts/Main.vue';
 import Collapsible from '@/components/Collapsible.vue';
 import CategoriesList from '@/components/CategoriesList.vue';
+import Modal from '@/components/Modal.vue';
+
+import { ref } from 'vue';
+
+const isOpen = ref(false);
+
+function openModal() {
+    isOpen.value = true;
+}
+
 </script>
 
 <template>
@@ -29,7 +39,10 @@ import CategoriesList from '@/components/CategoriesList.vue';
     </MainLayout>
 
     <!-- FLOATING ACTION BUTTON -->
-    <button class="btn btn-primary btn-circle fixed bottom-6 right-6 shadow-xl flex items-center justify-center text-2xl">
+    <button @click="openModal"
+        class="btn btn-primary btn-circle fixed bottom-6 right-6 shadow-xl flex items-center justify-center text-2xl">
         <span>+</span>
     </button>
+
+    <Modal :isOpen="isOpen" @close="isOpen = false" />
 </template>
