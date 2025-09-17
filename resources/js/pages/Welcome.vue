@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import Header from '@/components/Header.vue';
+import Header from '@/layouts/Header.vue';
 import Search from '@/components/Search.vue';
 import MainLayout from '@/layouts/Main.vue';
-import Collapsible from '@/components/Collapsible.vue';
-import CategoriesList from '@/components/CategoriesList.vue';
-import Modal from '@/components/Modal.vue';
+import Collapsible from '@/components/ui/Collapsible.vue';
+import CategoriesList from '@/components/categories/CategoriesList.vue';
+import Modal from '@/components/ui/Modal.vue';
 
 import { ref } from 'vue';
 
