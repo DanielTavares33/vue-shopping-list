@@ -2,38 +2,43 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Resources\Categories\Tables;
+namespace App\Filament\Resources\Products\Tables;
 
+use Dom\Text;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
-class CategoriesTable
+class ProductsTable
 {
     public static function configure(Table $table): Table
     {
         return $table
             ->columns([
-                TextColumn::make('icon')
-                    ->label('Icon'),
                 TextColumn::make('name')
                     ->label('Name')
                     ->searchable()
                     ->sortable(),
+                TextColumn::make('category.name')
+                    ->label('Category')
+                    ->formatStateUsing(fn (Model $record) =>  $record?->category?->icon . ' ' . $record?->category?->name)
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('created_at')
-                    ->label('Created At')
+                    ->label('Created')
                     ->dateTime('d/m/Y H:i')
                     ->sortable(),
                 TextColumn::make('updated_at')
-                    ->label('Updated At')
+                    ->label('Updated')
                     ->dateTime('d/m/Y H:i')
                     ->sortable(),
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([
-
+                //
             ])
             ->recordActions([
                 EditAction::make(),
