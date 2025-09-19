@@ -3,7 +3,7 @@ import Checkbox from '../ui/Checkbox.vue';
 import { defineProps } from 'vue';
 
 const props = defineProps<{
-  category: {
+  product: {
     id: number;
     name: string;
   };
@@ -11,7 +11,7 @@ const props = defineProps<{
 </script>
 
 <template>
-  <Checkbox :label="props.category.name" />
+  <Checkbox :label="props.product.name" />
 </template>
 
 <style scoped></style>

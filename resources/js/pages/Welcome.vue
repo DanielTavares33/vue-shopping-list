@@ -5,10 +5,18 @@ import MainLayout from '@/layouts/Main.vue';
 import Collapsible from '@/components/ui/Collapsible.vue';
 import CategoriesList from '@/components/categories/CategoriesList.vue';
 import Modal from '@/components/ui/Modal.vue';
+import type { Category } from '@/types/interfaces/category';
+import type { Product } from '@/types/interfaces/product';
 
 import { ref } from 'vue';
 
+const props = defineProps({
+    categories: Array<Category>,
+    products: Array<Product>,
+});
+
 const isOpen = ref(false);
+
 
 function openModal() {
     isOpen.value = true;
@@ -21,20 +29,8 @@ function openModal() {
     <Search />
 
     <MainLayout>
-        <Collapsible title="🍞 Bakery">
-            <CategoriesList />
-        </Collapsible>
-
-        <Collapsible title="🍎 Fruits & Vegetables">
-            <CategoriesList />
-        </Collapsible>
-
-        <Collapsible title="🥩 Meat & Fish">
-            <CategoriesList />
-        </Collapsible>
-
-        <Collapsible title="🧴 Household">
-            <CategoriesList />
+        <Collapsible v-for="category in props.categories" :key="category.id" :title="category.name" :icon="category.icon">
+            <CategoriesList :category="category" />
         </Collapsible>
     </MainLayout>
 
@@ -44,5 +40,5 @@ function openModal() {
         <span>+</span>
     </button>
 
-    <Modal :isOpen="isOpen" @close="isOpen = false" />
+    <Modal :isOpen="isOpen" @close="isOpen = false" :categories="props.categories" />
 </template>
