@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Products\Schemas;
 
-use Filament\Schemas\Schema;
 use Filament\Forms\Components\Select;
-use Filament\Schemas\Components\Flex;
-use Illuminate\Database\Eloquent\Model;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Flex;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
+use Illuminate\Database\Eloquent\Model;
 
 class ProductForm
 {
@@ -19,6 +20,8 @@ class ProductForm
             ->components([
                 Flex::make([
                     Section::make()
+                        ->icon(Heroicon::OutlinedShoppingBag)
+                        ->description('Create a new product 2')
                         ->schema([
                             TextInput::make('name')
                                 ->label('Name')

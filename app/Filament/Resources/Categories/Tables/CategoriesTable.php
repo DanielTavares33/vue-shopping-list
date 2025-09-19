@@ -19,19 +19,12 @@ class CategoriesTable
                 TextColumn::make('icon')
                     ->label('Icon'),
                 TextColumn::make('name')
-                    ->label('Name')
-                    ->searchable()
-                    ->sortable(),
+                    ->label('Name')->searchable()->sortable(),
                 TextColumn::make('created_at')
-                    ->label('Created At')
-                    ->dateTime('d/m/Y H:i')
-                    ->sortable(),
+                    ->label('Created At')->dateTime()->sortable(),
                 TextColumn::make('updated_at')
-                    ->label('Updated At')
-                    ->dateTime('d/m/Y H:i')
-                    ->sortable(),
+                    ->label('Updated At')->dateTime()->sortable(),
             ])
-            ->defaultSort('created_at', 'desc')
             ->filters([
 
             ])

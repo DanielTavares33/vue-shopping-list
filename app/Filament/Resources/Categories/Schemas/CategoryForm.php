@@ -8,6 +8,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Flex;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 
 class CategoryForm
 {
@@ -17,18 +18,18 @@ class CategoryForm
             ->components([
                 Flex::make([
                     Section::make()
+                        ->icon(Heroicon::OutlinedRectangleStack)
+                        ->description('Create a new category')
                         ->schema([
-
-                            TextInput::make('icon')
-                                ->label('Icon')
-                                ->maxLength(255),
                             TextInput::make('name')
                                 ->label('Name')
                                 ->required()
                                 ->maxLength(255),
+                            TextInput::make('icon')
+                                ->label('Icon')
+                                ->maxLength(255),
                         ])->columns(),
-                ])->columnSpanFull()
-
+                ])->columnSpanFull(),
             ]);
     }
 }

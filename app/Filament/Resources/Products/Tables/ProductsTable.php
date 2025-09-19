@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Products\Tables;
 
-use Dom\Text;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -38,7 +37,7 @@ class ProductsTable
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([
-                //
+
             ])
             ->recordActions([
                 EditAction::make(),
