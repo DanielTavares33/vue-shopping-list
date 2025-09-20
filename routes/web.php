@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\HomeController;
 
-Route::get('/', [CategoryController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::post('/add-product', [HomeController::class, 'addProduct'])->name('addProduct');

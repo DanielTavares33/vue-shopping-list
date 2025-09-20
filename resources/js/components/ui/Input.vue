@@ -1,13 +1,15 @@
 <script setup lang='ts'>
-import { defineProps } from 'vue';
+import { defineProps, defineModel } from 'vue';
+
 
 const props = defineProps<{
   label: string;
   type: string;
   placeholder?: string;
   inputType: 'text' | 'number' | 'email' | 'password';
-  value?: string | number;
 }>();
+
+const modelValue = defineModel<string | number>();
 </script>
 
 <template>
@@ -17,7 +19,8 @@ const props = defineProps<{
       :type="props.inputType"
       class="input w-full"
       :placeholder="props.placeholder"
-      :value="props.value"
+      :value="modelValue"
+      @input="modelValue = $event.target.value"
     />
   </fieldset>
 </template>

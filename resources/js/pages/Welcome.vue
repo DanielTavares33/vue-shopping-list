@@ -9,6 +9,7 @@ import type { Category } from '@/types/interfaces/category';
 import type { Product } from '@/types/interfaces/product';
 
 import { ref } from 'vue';
+import { router } from '@inertiajs/vue3';
 
 const props = defineProps({
     categories: Array<Category>,
@@ -20,6 +21,14 @@ const isOpen = ref(false);
 
 function openModal() {
     isOpen.value = true;
+}
+
+function addProduct(form: { name: string | null; category_id: number | null }) {
+    router.post('/add-product', form, {
+        onFinish: () => {
+            isOpen.value = false;
+        }
+    });
 }
 
 </script>
@@ -40,5 +49,5 @@ function openModal() {
         <span>+</span>
     </button>
 
-    <Modal :isOpen="isOpen" @close="isOpen = false" :categories="props.categories" />
+    <Modal :isOpen="isOpen" @close="isOpen = false" @addProduct="addProduct" :categories="props.categories" />
 </template>
