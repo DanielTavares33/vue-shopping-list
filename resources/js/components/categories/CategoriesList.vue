@@ -1,12 +1,12 @@
 <script setup lang='ts'>
+import { Product } from '@/types/interfaces/models/product';
 import CategoryItem from './CategoryItem.vue';
 
-const props = defineProps({
+const props = defineProps<{
   category: {
-    type: Object,
-    required: true,
+    products: Array<Product>,
   },
-});
+}>();
 
 </script>
 

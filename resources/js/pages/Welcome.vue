@@ -7,7 +7,6 @@ import CategoriesList from '@/components/categories/CategoriesList.vue';
 import Modal from '@/components/ui/Modal.vue';
 import { PlusIcon } from '@heroicons/vue/24/outline'
 import type { Category } from '@/types/interfaces/models/category';
-import type { Product } from '@/types/interfaces/models/product';
 import type { ProductForm } from '@/types/interfaces/forms/productForm';
 
 
@@ -16,7 +15,6 @@ import { router } from '@inertiajs/vue3';
 
 const props = withDefaults(defineProps<{
     categories: Array<Category>,
-    products: Array<Product>,
     errors: Record<string, any>;
 }>(), {
     errors: () => ({})

@@ -7,3 +7,4 @@ use App\Http\Controllers\HomeController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::post('/add-product', [HomeController::class, 'addProduct'])->name('addProduct');
+Route::post('/delete-product/{product}', [HomeController::class, 'deleteProduct'])->name('deleteProduct');

@@ -32,4 +32,11 @@ class HomeController extends Controller
 
         return to_route('home');
     }
+
+    public function deleteProduct(Product $product)
+    {
+        $product->delete();
+
+        return to_route('home');
+    }
 }
