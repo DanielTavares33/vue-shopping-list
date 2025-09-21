@@ -1,27 +1,26 @@
 <script setup lang='ts'>
 import Input from './Input.vue';
 import Select from './Select.vue';
-import type { Category } from '@/types/interfaces/category';
+import type { Category } from '@/types/interfaces/models/category';
+import type { ProductForm } from '@/types/interfaces/forms/productForm';
 
-import { defineProps, defineEmits, reactive } from 'vue';
-import { ref } from 'vue';
+import { defineProps, defineEmits } from 'vue';
+import { ref, watch, onUnmounted } from 'vue';
 
 const props = defineProps<{
   isOpen: boolean;
   categories: Array<Category>;
+  errors?: Record<string, any>;
+  isLoading?: boolean;
+  form: ProductForm;
 }>();
 
 const emit = defineEmits<{
   (e: 'close'): void;
-  (e: 'addProduct'): void;
+  (e: 'addProduct', form: ProductForm): void;
 }>();
 
 const modalID = ref<string>('modal_' + Math.random().toString(36).substring(2, 15));
-
-const form = reactive({
-  name: null,
-  category_id: '',
-});
 </script>
 
 <template>
@@ -30,14 +29,20 @@ const form = reactive({
       <h3 class="text-lg font-bold">🛒 Add Product</h3>
       <p class="py-4">Fill in the details below:</p>
       <div class="modal-action">
-        <form class="w-full flex flex-col gap-4" @submit.prevent="emit('addProduct', form)">
-          <button type="button" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" @click="emit('close')">✕</button>
+        <form class="w-full flex flex-col gap-4" method="dialog" @submit.prevent="emit('addProduct', props.form)">
+          <button type="button" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+            @click="emit('close')">✕</button>
           <div class="flex flex-col w-full">
-            <Input v-model="form.name" label="Product Name" type="text" placeholder="Type here" inputType="text" />
-            <Select v-model="form.category_id" label="Category" :options="props.categories" />
+            <Input v-model="props.form.name" required label="Product Name" type="text" placeholder="Type here"
+              inputType="text" :error="props.errors?.name" />
+            <Select v-model="props.form.category_id" required label="Category" :options="props.categories"
+              :error="props.errors?.category_id" />
           </div>
           <div class="flex w-full gap-2">
-            <button type="submit" class="btn btn-success">Add</button>
+            <button type="submit" class="btn btn-primary">
+              <span class="loading loading-spinner" v-if="props.isLoading"></span>
+              Add
+            </button>
             <button type="button" class="btn btn-ghost" @click="emit('close')">Close</button>
           </div>
         </form>
@@ -47,19 +52,7 @@ const form = reactive({
 </template>
 
 <style scoped>
-.modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 50;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-}
-
 .modal-open {
-  display: flex;
+  visibility: visible;
 }
 </style>

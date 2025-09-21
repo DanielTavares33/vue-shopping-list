@@ -21,7 +21,7 @@ class HomeController extends Controller
     public function addProduct(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|min:3|unique:products,name',
             'category_id' => 'required|exists:categories,id',
         ]);
 
