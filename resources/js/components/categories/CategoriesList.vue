@@ -1,6 +1,6 @@
 <script setup lang='ts'>
 import { Product } from '@/types/interfaces/models/product';
-import CategoryItem from './CategoryItem.vue';
+import CategoryItem from '@/components/categories/CategoryItem.vue';
 
 const props = defineProps<{
   category: {
@@ -8,12 +8,16 @@ const props = defineProps<{
   },
 }>();
 
+const emit = defineEmits<{
+  (e: 'requestDelete', productId: number): void;
+}>();
+
 </script>
 
 <template>
   <ul class="space-y-2">
     <li class="hover:bg-base-300 flex items-center gap-2 rounded p-2" v-for="product in props.category.products" :key="product.id">
-      <CategoryItem :product="product" />
+      <CategoryItem :product="product" @requestDelete="emit('requestDelete', product.id)" />
     </li>
   </ul>
 </template>

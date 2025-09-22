@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import Header from '@/layouts/Header.vue';
-import Search from '@/components/Search.vue';
+import Search from '@/components/ui/inputs/Search.vue';
 import MainLayout from '@/layouts/Main.vue';
 import Collapsible from '@/components/ui/Collapsible.vue';
 import CategoriesList from '@/components/categories/CategoriesList.vue';
-import Modal from '@/components/ui/Modal.vue';
+import AddProductModal from '@/components/ui/modals/AddProductModal.vue';
+import RequiresConfirmationModal from '@/components/ui/modals/RequiresConfirmationModal.vue';
 import { PlusIcon } from '@heroicons/vue/24/outline'
 import type { Category } from '@/types/interfaces/models/category';
 import type { ProductForm } from '@/types/interfaces/forms/productForm';
@@ -26,7 +27,9 @@ const form = ref<ProductForm>({
 });
 
 const isOpen = ref(false);
+const requiresConfirmation = ref(false);
 const isLoading = ref(false);
+const productToDelete = ref<number | null>(null);
 
 function openModal() {
     isOpen.value = true;
@@ -35,6 +38,16 @@ function openModal() {
 
 function closeModal() {
     isOpen.value = false;
+}
+
+function openConfirmationModal(productId: number) {
+    productToDelete.value = productId;
+    requiresConfirmation.value = true;
+}
+
+function closeConfirmationModal() {
+    requiresConfirmation.value = false;
+    productToDelete.value = null;
 }
 
 function addProduct(form: ProductForm) {
@@ -54,6 +67,13 @@ function addProduct(form: ProductForm) {
         }
     });
 }
+
+function confirmDeleteProduct() {
+    if (productToDelete.value !== null) {
+        router.post(`/delete-product/${productToDelete.value}`);
+        closeConfirmationModal();
+    }
+}
 </script>
 
 <template>
@@ -63,7 +83,7 @@ function addProduct(form: ProductForm) {
     <MainLayout>
         <Collapsible v-for="category in props.categories" :key="category.id" :title="category.name"
             :icon="category.icon">
-            <CategoriesList :category="category" />
+            <CategoriesList :category="category" @requestDelete="openConfirmationModal" />
         </Collapsible>
     </MainLayout>
 
@@ -74,6 +94,8 @@ function addProduct(form: ProductForm) {
         <PlusIcon class="w-6 h-6" />
     </button>
 
-    <Modal :isOpen="isOpen" @close="closeModal" @addProduct="addProduct" :categories="props.categories"
+    <AddProductModal :isOpen="isOpen" @close="closeModal" @addProduct="addProduct" :categories="props.categories"
         :errors="props.errors" :isLoading="isLoading" v-model:form="form" />
+    <RequiresConfirmationModal :isOpen="requiresConfirmation" @close="closeConfirmationModal" @confirm="confirmDeleteProduct" />
+
 </template>

@@ -1,6 +1,6 @@
 <script setup lang='ts'>
-import Input from './Input.vue';
-import Select from './Select.vue';
+import Input from '@/components/ui/inputs/Input.vue';
+import Select from '@/components/ui/inputs/Select.vue';
 import type { Category } from '@/types/interfaces/models/category';
 import type { ProductForm } from '@/types/interfaces/forms/productForm';
 
