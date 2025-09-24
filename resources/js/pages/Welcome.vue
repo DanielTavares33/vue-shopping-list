@@ -4,12 +4,13 @@ import Collapsible from '@/components/ui/Collapsible.vue';
 import Search from '@/components/ui/inputs/Search.vue';
 import AddProductModal from '@/components/ui/modals/AddProductModal.vue';
 import RequiresConfirmationModal from '@/components/ui/modals/RequiresConfirmationModal.vue';
+import ToastMessage from '@/components/ui/toaster/ToastMessage.vue';
 import Header from '@/layouts/Header.vue';
 import MainLayout from '@/layouts/Main.vue';
 import type { ProductForm } from '@/types/interfaces/forms/productForm';
 import type { Category } from '@/types/interfaces/models/category';
 import { PlusIcon } from '@heroicons/vue/24/outline';
-
+import { useToast } from '@/composables/useToast';
 import { router } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
@@ -28,10 +29,11 @@ const form = ref<ProductForm>({
     category_id: null,
 });
 
-const isOpen = ref(false);
-const requiresConfirmation = ref(false);
-const isLoading = ref(false);
+const isOpen = ref<boolean>(false);
+const requiresConfirmation = ref<boolean>(false);
+const isLoading = ref<boolean>(false);
 const productToDelete = ref<number | null>(null);
+const { toasterMessage, toasterType, showToast } = useToast();
 
 function openModal() {
     isOpen.value = true;
@@ -70,6 +72,23 @@ function addProduct(form: ProductForm) {
                     isOpen.value = false;
                 }
             },
+            onSuccess: () => {
+                showToast({
+                    message: 'Product added successfully!',
+                    type: 'success',
+                    duration: 3000,
+                });
+            },
+            onError: () => {
+                // Show error toast only if there are no validation errors
+                if (Object.keys(props.errors ?? {}).length === 0) {
+                    showToast({
+                        message: 'There was an error adding the product.',
+                        type: 'error',
+                        duration: 3000,
+                    });
+                }
+            }
         },
     );
 }
@@ -87,28 +106,22 @@ function confirmDeleteProduct() {
     <Search />
 
     <MainLayout>
-        <Collapsible v-for="category in props.categories" :key="category.id" :title="category.name" :icon="category.icon">
+        <Collapsible v-for="category in props.categories" :key="category.id" :title="category.name"
+            :icon="category.icon">
             <CategoriesList :category="category" @requestDelete="openConfirmationModal" />
         </Collapsible>
     </MainLayout>
 
     <!-- FLOATING ACTION BUTTON -->
-    <button
-        @click="openModal"
+    <button @click="openModal"
         class="btn fixed right-6 bottom-6 flex btn-circle items-center justify-center text-2xl shadow-xl btn-primary"
-        aria-label="Add Product"
-    >
+        aria-label="Add Product">
         <PlusIcon class="h-6 w-6" />
     </button>
 
-    <AddProductModal
-        :isOpen="isOpen"
-        @close="closeModal"
-        @addProduct="addProduct"
-        :categories="props.categories"
-        :errors="props.errors"
-        :isLoading="isLoading"
-        v-model:form="form"
-    />
-    <RequiresConfirmationModal :isOpen="requiresConfirmation" @close="closeConfirmationModal" @confirm="confirmDeleteProduct" />
+    <AddProductModal :isOpen="isOpen" @close="closeModal" @addProduct="addProduct" :categories="props.categories"
+        :errors="props.errors" :isLoading="isLoading" v-model:form="form" />
+    <RequiresConfirmationModal :isOpen="requiresConfirmation" @close="closeConfirmationModal"
+        @confirm="confirmDeleteProduct" />
+    <ToastMessage v-if="toasterMessage" :message="toasterMessage" :type="toasterType" />
 </template>
