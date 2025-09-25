@@ -11,7 +11,7 @@ const cartItemCount = ref(2);
             <h1 class="text-xl font-extrabold normal-case">{{ title }}</h1>
         </div>
         <div class="flex-none">
-            <button class="btn gap-2 border-none bg-primary shadow-none text-white  btn-md outline-none hover:bg-primary hover:text-white">
+            <button class="btn gap-2 border-none bg-primary text-white shadow-none btn-md outline-none hover:bg-primary hover:text-white">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                     <path
                         stroke-linecap="round"
