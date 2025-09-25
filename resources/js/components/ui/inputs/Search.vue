@@ -1,19 +1,44 @@
 <script setup lang="ts">
+import { computed, ref, onMounted, onUnmounted } from 'vue';
 
+const isMac = computed(() =>
+  /Macintosh|MacIntel|MacPPC|Mac68K|Mac OS X/i.test(navigator.userAgent)
+);
+const isMobile = computed(() => /Mobi|Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent));
+
+const inputRef = ref<HTMLInputElement | null>(null);
+
+function handleShortcut(e: KeyboardEvent) {
+  if (
+    (isMac.value && e.metaKey && e.key.toLowerCase() === 'k') ||
+    (!isMac.value && e.ctrlKey && e.key.toLowerCase() === 'k')
+  ) {
+    e.preventDefault();
+    inputRef.value?.focus();
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('keydown', handleShortcut);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleShortcut);
+});
 </script>
 
 <template>
   <div class="flex p-4 w-full max-w-screen">
     <label class="input w-full">
-      <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-        <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none" stroke="currentColor">
-          <circle cx="11" cy="11" r="8"></circle>
-          <path d="m21 21-4.3-4.3"></path>
-        </g>
-      </svg>
-      <input type="search" class="grow" placeholder="Search" />
-      <kbd class="kbd kbd-sm">⌘</kbd>
-      <kbd class="kbd kbd-sm">K</kbd>
+      <input ref="inputRef" type="search" class="grow" placeholder="Search" />
+      <span v-if="isMac" class="flex gap-1" v-show="!isMobile">
+        <kbd class="kbd kbd-sm">⌘</kbd>
+        <kbd class="kbd kbd-sm">K</kbd>
+      </span>
+      <span v-else class="flex gap-1" v-show="!isMobile">
+        <kbd class="kbd kbd-sm">Ctrl</kbd>
+        <kbd class="kbd kbd-sm">K</kbd>
+      </span>
     </label>
   </div>
 </template>

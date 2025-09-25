@@ -1,5 +1,5 @@
-import { ref } from 'vue';
 import type { Toast } from '@/types/interfaces/toast';
+import { ref } from 'vue';
 
 export function useToast() {
     const toasterMessage = ref<string>('');
@@ -17,6 +17,6 @@ export function useToast() {
     return {
         toasterMessage,
         toasterType,
-        showToast
+        showToast,
     };
 }
