@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { computed, ref, onMounted, onUnmounted } from 'vue';
 
-const isMac = computed(() => navigator.platform.toLowerCase().includes('mac'));
+const isMac = computed(() =>
+  /Macintosh|MacIntel|MacPPC|Mac68K|Mac OS X/i.test(navigator.userAgent)
+);
 const isMobile = computed(() => /Mobi|Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent));
 
 const inputRef = ref<HTMLInputElement | null>(null);
