@@ -15,7 +15,7 @@ const modelValue = defineModel<number>();
 <template>
   <fieldset class="fieldset w-full">
     <legend class="fieldset-legend">{{ props.label }}</legend>
-    <select class="select w-full" v-model="modelValue" :required="props.required">
+    <select class="select w-full" v-model="modelValue" :required="props.required" :class="{ 'input-error': props.error }">
       <option disabled :value="null">Pick a category</option>
       <option v-for="option in props.options" :key="option.id" :value="option.id">{{ option.icon }} {{ option.name }}</option>
     </select>
