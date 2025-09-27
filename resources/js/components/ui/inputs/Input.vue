@@ -20,6 +20,7 @@ const modelValue = defineModel<string | number>();
     <input
       :type="props.inputType"
       class="input w-full"
+      :class="{ 'input-error': props.error }"
       :required="props.required"
       :placeholder="props.placeholder"
       :value="modelValue"
