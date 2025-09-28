@@ -8,6 +8,7 @@ import ToastMessage from '@/components/ui/toaster/ToastMessage.vue';
 import { useToast } from '@/composables/useToast';
 import Header from '@/layouts/Header.vue';
 import MainLayout from '@/layouts/Main.vue';
+import { User } from '@/types';
 import type { ProductForm } from '@/types/interfaces/forms/productForm';
 import type { Category } from '@/types/interfaces/models/category';
 import { PlusIcon } from '@heroicons/vue/24/outline';
@@ -18,6 +19,7 @@ const props = withDefaults(
     defineProps<{
         categories: Array<Category>;
         errors: Record<string, any>;
+        user: User | null;
     }>(),
     {
         errors: () => ({}),

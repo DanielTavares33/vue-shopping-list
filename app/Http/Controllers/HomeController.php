@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Actions\AddProductToCart;
 use App\Models\Category;
 use App\Models\Product;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -15,10 +17,11 @@ class HomeController extends Controller
     {
         return Inertia::render('Welcome', [
             'categories' => Category::with('products')->get(),
+            'user' => auth()->user(),
         ]);
     }
 
-    public function addProduct(Request $request)
+    public function addProduct(Request $request): RedirectResponse
     {
         $request->validate([
             'name' => 'required|string|max:255|min:3|unique:products,name',
@@ -33,7 +36,14 @@ class HomeController extends Controller
         return to_route('home');
     }
 
-    public function deleteProduct(Product $product)
+    public function addProductToCart(Request $request, AddProductToCart $productToCart): RedirectResponse
+    {
+        $productToCart = $productToCart->handle($request->all());
+
+        return to_route('cart');
+    }
+
+    public function deleteProduct(Product $product): RedirectResponse
     {
         $product->delete();
 
