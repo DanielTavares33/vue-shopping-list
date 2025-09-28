@@ -116,10 +116,10 @@ function confirmDeleteProduct() {
     <!-- FLOATING ACTION BUTTON -->
     <button
         @click="openModal"
-        class="btn fixed right-6 bottom-6 flex btn-circle items-center justify-center text-2xl shadow-xl btn-primary"
+        class="btn fixed right-6 bottom-6 flex btn-circle items-center justify-center text-2xl shadow-xl btn-secondary"
         aria-label="Add Product"
     >
-        <PlusIcon class="h-6 w-6" />
+        <PlusIcon class="h-6 text-white" />
     </button>
 
     <AddProductModal
