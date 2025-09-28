@@ -13,13 +13,6 @@ import ProductCard from '@/components/ProductCard.vue';
             <ProductCard />
             <ProductCard />
             <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
         </section>
     </MainLayout>
 </template>

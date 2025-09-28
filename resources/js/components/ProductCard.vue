@@ -1,4 +1,5 @@
 <script setup lang='ts'>
+import { TrashIcon } from '@heroicons/vue/24/solid';
 </script>
 
 <template>
@@ -15,7 +16,10 @@
                         <button class="btn btn-xs btn-ghost">2</button>
                         <button class="btn btn-xs">+</button>
                     </div>
-                    <button class="btn btn-xs btn-error">Remove</button>
+
+                    <button type="submit" class="right-0 ml-auto cursor-pointer" @click.prevent="handleDelete">
+                        <TrashIcon class="h-5 w-5 text-error hover:text-error/70" />
+                    </button>
                 </div>
             </div>
         </div>
