@@ -1,4 +1,23 @@
 <script setup lang='ts'>
+import { reactive } from 'vue';
+import { router } from '@inertiajs/vue3';
+import { LoginForm } from '@/types/interfaces/forms/loginForm';
+
+const form = reactive<LoginForm>({
+    email: '',
+    password: '',
+});
+
+function submit() {
+    router.post('/sign-in', form, {
+        onError: (errors) => {
+            console.log(errors);
+        },
+        onSuccess: () => {
+            console.log('Login successful');
+        },
+    });
+}
 </script>
 
 <template>
@@ -15,6 +34,7 @@
                             <span class="label-text">Email</span>
                         </label>
                         <input type="email" placeholder="you@example.com" class="input input-bordered w-full"
+                            v-model="form.email"
                             required />
                     </div>
 
@@ -22,7 +42,9 @@
                         <label class="label">
                             <span class="label-text">Password</span>
                         </label>
-                        <input type="password" placeholder="••••••••" class="input input-bordered w-full" required />
+                        <input type="password" placeholder="••••••••" class="input input-bordered w-full"
+                            v-model="form.password"
+                            required />
                     </div>
 
                     <!-- <div class="flex justify-between items-center">
@@ -33,7 +55,7 @@
                         <a href="#" class="text-sm text-primary hover:underline">Forgot password?</a>
                     </div> -->
 
-                    <button type="submit" class="btn btn-primary w-full">Sign In</button>
+                    <button type="submit" class="btn btn-primary w-full" @click.prevent="submit">Sign In</button>
                 </form>
 
                 <!-- Divider -->
