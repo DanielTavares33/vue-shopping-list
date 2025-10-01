@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Middleware;
 
 use App\Models\Product;
-use Illuminate\Foundation\Inspiring;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
-use Process;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -40,20 +38,16 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        [$message, $author] = str(Inspiring::quotes()->random())->explode('-');
-
         return [
             ...parent::share($request),
             'name' => config('app.name'),
-            'quote' => ['message' => trim($message), 'author' => trim($author)],
             'auth' => [
-                'user' => $request->user(),
+                'user' => $request->user() ? $request->user()->only('id', 'name', 'email') : null,
                 'permissions' => [
                     'product' => [
-                        'create' => $request->user()?->can('create',Product::class) ?? false,
-                        'read' => $request->user()?->can('read',Product::class) ?? false,
-                        'update' => $request->user()?->can('update',Product::class) ?? false,
-                        'delete' => $request->user()?->can('delete',Product::class) ?? false,
+                        'create' => $request->user()?->can('create', Product::class) ?? false,
+                        // 'update' => $request->user()?->can('update', Product::class) ?? false,
+                        // 'delete' => $request->user()?->can('delete', Product::class) ?? false,
                     ]
                 ]
             ],

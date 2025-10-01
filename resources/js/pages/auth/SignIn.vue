@@ -1,7 +1,7 @@
-<script setup lang='ts'>
-import { reactive } from 'vue';
-import { router } from '@inertiajs/vue3';
+<script setup lang="ts">
 import { LoginForm } from '@/types/interfaces/forms/loginForm';
+import { router } from '@inertiajs/vue3';
+import { reactive } from 'vue';
 
 const form = reactive<LoginForm>({
     email: '',
@@ -21,11 +21,11 @@ function submit() {
 </script>
 
 <template>
-    <div class="min-h-screen bg-base-100 flex items-center justify-center">
-        <div class="card w-full max-w-sm shadow-lg bg-base-200">
+    <div class="flex min-h-screen items-center justify-center bg-base-100">
+        <div class="card w-full max-w-sm bg-base-200 shadow-lg">
             <div class="card-body">
                 <!-- Header -->
-                <h2 class="text-center text-2xl font-bold text-primary mb-4">Sign In</h2>
+                <h2 class="mb-4 text-center text-2xl font-bold text-primary">Sign In</h2>
 
                 <!-- Form -->
                 <form class="space-y-4">
@@ -33,18 +33,14 @@ function submit() {
                         <label class="label">
                             <span class="label-text">Email</span>
                         </label>
-                        <input type="email" placeholder="you@example.com" class="input input-bordered w-full"
-                            v-model="form.email"
-                            required />
+                        <input type="email" placeholder="you@example.com" class="input-bordered input w-full" v-model="form.email" required />
                     </div>
 
                     <div>
                         <label class="label">
                             <span class="label-text">Password</span>
                         </label>
-                        <input type="password" placeholder="••••••••" class="input input-bordered w-full"
-                            v-model="form.password"
-                            required />
+                        <input type="password" placeholder="••••••••" class="input-bordered input w-full" v-model="form.password" required />
                     </div>
 
                     <!-- <div class="flex justify-between items-center">
@@ -55,7 +51,7 @@ function submit() {
                         <a href="#" class="text-sm text-primary hover:underline">Forgot password?</a>
                     </div> -->
 
-                    <button type="submit" class="btn btn-primary w-full" @click.prevent="submit">Sign In</button>
+                    <button type="submit" class="btn w-full btn-primary" @click.prevent="submit">Sign In</button>
                 </form>
 
                 <!-- Divider -->

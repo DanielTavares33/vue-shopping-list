@@ -1,5 +1,12 @@
 export interface Auth {
     user: User;
+    permissions: {
+        product: {
+            create: boolean;
+            // update?: boolean;
+            // delete?: boolean;
+        };
+    };
 }
 
 export type AppPageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {
@@ -12,8 +19,4 @@ export interface User {
     id: number;
     name: string;
     email: string;
-    avatar?: string;
-    email_verified_at: string | null;
-    created_at: string;
-    updated_at: string;
 }

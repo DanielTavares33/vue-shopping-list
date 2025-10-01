@@ -12,14 +12,13 @@ import { User } from '@/types';
 import type { ProductForm } from '@/types/interfaces/forms/productForm';
 import type { Category } from '@/types/interfaces/models/category';
 import { PlusIcon } from '@heroicons/vue/24/outline';
-import { router } from '@inertiajs/vue3';
+import { router, usePage } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
 const props = withDefaults(
     defineProps<{
         categories: Array<Category>;
         errors: Record<string, any>;
-        user: User | null;
     }>(),
     {
         errors: () => ({}),
@@ -36,6 +35,9 @@ const requiresConfirmation = ref<boolean>(false);
 const isLoading = ref<boolean>(false);
 const productToDelete = ref<number | null>(null);
 const { toasterMessage, toasterType, showToast } = useToast();
+const page = usePage();
+const user = page.props.auth?.user as User | null;
+const permissions = page.props.auth?.permissions;
 
 function openModal() {
     isOpen.value = true;
@@ -118,6 +120,7 @@ function confirmDeleteProduct() {
         @click="openModal"
         class="btn fixed right-6 bottom-6 flex btn-circle items-center justify-center text-2xl shadow-xl btn-secondary"
         aria-label="Add Product"
+        v-if="user && permissions?.product?.create"
     >
         <PlusIcon class="h-6 text-white" />
     </button>

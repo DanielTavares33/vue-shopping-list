@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands;
 
 use App\Models\User;
@@ -25,7 +27,7 @@ class CreateUser extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
         $this->info('Creating a new user...');
 
@@ -33,6 +35,12 @@ class CreateUser extends Command
         User::create([
             'name' => 'Test User',
             'email' => 'test@example.com',
+            'password' => Hash::make('123456'),
+        ]);
+
+        User::create([
+            'name' => 'Test User',
+            'email' => 'test@admin.com',
             'password' => Hash::make('123456'),
         ]);
 
