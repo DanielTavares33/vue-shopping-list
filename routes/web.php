@@ -16,3 +16,4 @@ Route::get('/cart', [CartController::class, 'index'])->name('cart');
 
 Route::get('/sign-in', [LoginController::class, 'index'])->name('login');
 Route::post('/sign-in', [LoginController::class, 'authenticate'])->name('login.authenticate');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
