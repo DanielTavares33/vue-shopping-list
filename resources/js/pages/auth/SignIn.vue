@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useToast } from '@/composables/useToast';
 import { LoginForm } from '@/types/interfaces/forms/loginForm';
 import { router } from '@inertiajs/vue3';
 import { reactive } from 'vue';
@@ -8,13 +9,16 @@ const form = reactive<LoginForm>({
     password: '',
 });
 
+const { showToast } = useToast();
+
 function submit() {
     router.post('/sign-in', form, {
-        onError: (errors) => {
-            console.log(errors);
-        },
         onSuccess: () => {
-            console.log('Login successful');
+            showToast({
+                message: 'Signed in successfully.',
+                type: 'success',
+                duration: 3000,
+            });
         },
     });
 }

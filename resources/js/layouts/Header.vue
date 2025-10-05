@@ -3,17 +3,31 @@ import { ShoppingCartIcon, UserIcon, ArrowLeftStartOnRectangleIcon } from '@hero
 import { ArrowDownIcon } from '@heroicons/vue/24/solid';
 import { Link, router, usePage } from '@inertiajs/vue3';
 import { ref } from 'vue';
+import { useToast } from '@/composables/useToast';
 
 const title = ref('Grocery List');
 const cartItemCount = ref(2);
 const page = usePage();
 const user = page.props.auth?.user;
 
+const { toasterMessage, toasterType, showToast } = useToast();
+
 function logout() {
     router.post('/logout', {}, {
         preserveState: false,
         onSuccess: () => {
-            window.location.reload();
+            showToast({
+                message: 'Logged out successfully.',
+                type: 'success',
+                duration: 3000,
+            });
+        },
+        onError: () => {
+            showToast({
+                message: 'Error logging out. Please try again.',
+                type: 'error',
+                duration: 3000,
+            });
         }
     });
 }
