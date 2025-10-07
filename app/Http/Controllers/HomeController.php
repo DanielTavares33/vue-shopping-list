@@ -10,10 +10,11 @@ use App\Models\Product;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index(Request $request): Response
     {
         return Inertia::render('Welcome', [
             'categories' => Category::with('products')->get(),

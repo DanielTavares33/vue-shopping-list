@@ -5,16 +5,14 @@ import Search from '@/components/ui/inputs/Search.vue';
 import AddProductModal from '@/components/ui/modals/AddProductModal.vue';
 import RequiresConfirmationModal from '@/components/ui/modals/RequiresConfirmationModal.vue';
 import ToastMessage from '@/components/ui/toaster/ToastMessage.vue';
-import { useToast } from '@/composables/useToast';
 import Header from '@/layouts/Header.vue';
 import MainLayout from '@/layouts/Main.vue';
 import { User } from '@/types';
 import type { ProductForm } from '@/types/interfaces/forms/productForm';
 import type { Category } from '@/types/interfaces/models/category';
-import { Toast } from '@/types/interfaces/toast';
 import { PlusIcon } from '@heroicons/vue/24/outline';
 import { router, usePage } from '@inertiajs/vue3';
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 
 const props = withDefaults(
     defineProps<{
@@ -35,18 +33,9 @@ const isOpen = ref<boolean>(false);
 const requiresConfirmation = ref<boolean>(false);
 const isLoading = ref<boolean>(false);
 const productToDelete = ref<number | null>(null);
-const { toasterMessage, toasterType, showToast } = useToast();
 const page = usePage();
 const user = page.props.auth?.user as User | null;
 const permissions = page.props.auth?.permissions;
-
-onMounted(() => {
-    const toast = page.props.toast as Toast | null;
-    console.log('Toast on mounted:', toast);
-    if (toast) {
-        showToast(toast);
-    }
-});
 
 function openModal() {
     isOpen.value = true;
@@ -67,6 +56,7 @@ function closeConfirmationModal() {
     productToDelete.value = null;
 }
 
+// TODO: Move to inertia form helper & composable
 function addProduct(form: ProductForm) {
     isLoading.value = true;
 
@@ -83,23 +73,6 @@ function addProduct(form: ProductForm) {
                 // Only close if there are no errors
                 if (Object.keys(props.errors ?? {}).length === 0) {
                     isOpen.value = false;
-                }
-            },
-            onSuccess: () => {
-                showToast({
-                    message: 'Product added successfully!',
-                    type: 'success',
-                    duration: 3000,
-                });
-            },
-            onError: () => {
-                // Show error toast only if there are no validation errors
-                if (Object.keys(props.errors ?? {}).length === 0) {
-                    showToast({
-                        message: 'There was an error adding the product.',
-                        type: 'error',
-                        duration: 3000,
-                    });
                 }
             },
         },
@@ -144,5 +117,5 @@ function confirmDeleteProduct() {
         v-model:form="form"
     />
     <RequiresConfirmationModal :isOpen="requiresConfirmation" @close="closeConfirmationModal" @confirm="confirmDeleteProduct" />
-    <ToastMessage v-if="toasterMessage" :message="toasterMessage" :type="toasterType" />
+    <ToastMessage v-if="toast" :message="toast.message" :type="toast.type" @close="toast = null" />
 </template>

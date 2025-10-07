@@ -1,10 +1,19 @@
 <script setup lang='ts'>
-import { computed } from 'vue';
+import { computed, onMounted, Transition } from 'vue';
 
 const props = defineProps<{
   message: string;
   type: 'info' | 'success' | 'error';
+  timeout?: number;
 }>();
+
+const emit = defineEmits(['close'])
+
+onMounted(() => {
+  setTimeout(() => {
+      emit('close');
+    }, props.timeout ?? 3000); // Default timeout of 3 seconds
+});
 
 const svg = computed(() => {
   switch (props.type) {
@@ -36,12 +45,14 @@ const svg = computed(() => {
 </script>
 
 <template>
-  <div class="toast toast-top toast-end">
-    <div class="alert" :class="`alert-${props.type}`">
-      <div v-html="svg" />
-      <span>{{ props.message }}</span>
+  <Transition name="out-in">
+    <div class="toast toast-top toast-end">
+      <div class="alert" :class="`alert-${props.type}`">
+        <div v-html="svg" />
+        <span>{{ props.message }}</span>
+      </div>
     </div>
-  </div>
+  </Transition>
 </template>
 
 <style scoped></style>
