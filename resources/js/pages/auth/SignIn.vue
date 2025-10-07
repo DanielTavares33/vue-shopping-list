@@ -1,27 +1,11 @@
 <script setup lang="ts">
-import { useToast } from '@/composables/useToast';
 import { LoginForm } from '@/types/interfaces/forms/loginForm';
-import { router } from '@inertiajs/vue3';
-import { reactive } from 'vue';
+import { useForm } from '@inertiajs/vue3';
 
-const form = reactive<LoginForm>({
-    email: '',
-    password: '',
+const form = useForm<LoginForm>({
+    email: null,
+    password: null,
 });
-
-const { showToast } = useToast();
-
-function submit() {
-    router.post('/sign-in', form, {
-        onSuccess: () => {
-            showToast({
-                message: 'Signed in successfully.',
-                type: 'success',
-                duration: 3000,
-            });
-        },
-    });
-}
 </script>
 
 <template>
@@ -32,12 +16,13 @@ function submit() {
                 <h2 class="mb-4 text-center text-2xl font-bold text-primary">Sign In</h2>
 
                 <!-- Form -->
-                <form class="space-y-4">
+                <form class="space-y-4" @submit.prevent="form.post('/sign-in')">
                     <div>
                         <label class="label">
                             <span class="label-text">Email</span>
                         </label>
                         <input type="email" placeholder="you@example.com" class="input-bordered input w-full" v-model="form.email" required />
+                        <div v-if="form.errors.email" class="mt-1 text-sm text-error">{{ form.errors.email }}</div>
                     </div>
 
                     <div>
@@ -45,6 +30,7 @@ function submit() {
                             <span class="label-text">Password</span>
                         </label>
                         <input type="password" placeholder="••••••••" class="input-bordered input w-full" v-model="form.password" required />
+                        <div v-if="form.errors.password" class="mt-1 text-sm text-error">{{ form.errors.password }}</div>
                     </div>
 
                     <!-- <div class="flex justify-between items-center">
@@ -55,7 +41,7 @@ function submit() {
                         <a href="#" class="text-sm text-primary hover:underline">Forgot password?</a>
                     </div> -->
 
-                    <button type="submit" class="btn w-full btn-primary" @click.prevent="submit">Sign In</button>
+                    <button type="submit" class="btn w-full btn-primary" :disabled="form.processing">Sign In</button>
                 </form>
 
                 <!-- Divider -->

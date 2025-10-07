@@ -51,6 +51,7 @@ class HandleInertiaRequests extends Middleware
                     ]
                 ]
             ],
+            'toast' => fn () => $request->session()->get('toast'),
         ];
     }
 }

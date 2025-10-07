@@ -11,9 +11,10 @@ import MainLayout from '@/layouts/Main.vue';
 import { User } from '@/types';
 import type { ProductForm } from '@/types/interfaces/forms/productForm';
 import type { Category } from '@/types/interfaces/models/category';
+import { Toast } from '@/types/interfaces/toast';
 import { PlusIcon } from '@heroicons/vue/24/outline';
 import { router, usePage } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 
 const props = withDefaults(
     defineProps<{
@@ -38,6 +39,14 @@ const { toasterMessage, toasterType, showToast } = useToast();
 const page = usePage();
 const user = page.props.auth?.user as User | null;
 const permissions = page.props.auth?.permissions;
+
+onMounted(() => {
+    const toast = page.props.toast as Toast | null;
+    console.log('Toast on mounted:', toast);
+    if (toast) {
+        showToast(toast);
+    }
+});
 
 function openModal() {
     isOpen.value = true;
