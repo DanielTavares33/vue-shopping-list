@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ShoppingCartIcon, UserIcon, ArrowLeftStartOnRectangleIcon } from '@heroicons/vue/24/outline';
+import { ArrowLeftStartOnRectangleIcon, ShoppingCartIcon, UserIcon } from '@heroicons/vue/24/outline';
 import { ArrowDownIcon } from '@heroicons/vue/24/solid';
 import { Link, router, usePage } from '@inertiajs/vue3';
 import { ref } from 'vue';
@@ -9,11 +9,14 @@ const cartItemCount = ref(2);
 const page = usePage();
 const user = page.props.auth?.user;
 
-
 function logout() {
-    router.post('/logout', {}, {
-        preserveState: false,
-    });
+    router.post(
+        '/logout',
+        {},
+        {
+            preserveState: false,
+        },
+    );
 }
 </script>
 
@@ -33,7 +36,7 @@ function logout() {
                 <div class="dropdown dropdown-start">
                     <span
                         tabindex="0"
-                        class="flex items-center gap-2 text-xs md:text-sm lg:text-base text-white cursor-pointer"
+                        class="flex cursor-pointer items-center gap-2 text-xs text-white md:text-sm lg:text-base"
                         aria-haspopup="true"
                         aria-expanded="false"
                     >
