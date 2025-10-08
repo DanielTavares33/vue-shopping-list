@@ -5,14 +5,15 @@ import Search from '@/components/ui/inputs/Search.vue';
 import AddProductModal from '@/components/ui/modals/AddProductModal.vue';
 import RequiresConfirmationModal from '@/components/ui/modals/RequiresConfirmationModal.vue';
 import ToastMessage from '@/components/ui/toaster/ToastMessage.vue';
+import { useProducts } from '@/composables/useProducts';
 import Header from '@/layouts/Header.vue';
 import MainLayout from '@/layouts/Main.vue';
 import { User } from '@/types';
-import type { ProductForm } from '@/types/interfaces/forms/productForm';
 import type { Category } from '@/types/interfaces/models/category';
+import type { Toast } from '@/types/interfaces/toast';
 import { PlusIcon } from '@heroicons/vue/24/outline';
-import { router, usePage } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { usePage } from '@inertiajs/vue3';
+import { computed, onMounted, ref } from 'vue';
 
 const props = withDefaults(
     defineProps<{
@@ -24,67 +25,41 @@ const props = withDefaults(
     },
 );
 
-const form = ref<ProductForm>({
-    name: null,
-    category_id: null,
-});
-
-const isOpen = ref<boolean>(false);
-const requiresConfirmation = ref<boolean>(false);
-const isLoading = ref<boolean>(false);
-const productToDelete = ref<number | null>(null);
 const page = usePage();
+const {
+    isOpen,
+    form,
+    isLoading,
+    requiresConfirmation,
+    openModal,
+    closeModal,
+    openConfirmationModal,
+    closeConfirmationModal,
+    addProduct,
+    confirmDeleteProduct,
+} = useProducts();
 const user = page.props.auth?.user as User | null;
 const permissions = page.props.auth?.permissions;
 
-function openModal() {
-    isOpen.value = true;
-    form.value = { name: null, category_id: null };
-}
+const toast = ref<Toast | null>((page.props.toast as Toast) ?? null);
 
-function closeModal() {
-    isOpen.value = false;
-}
-
-function openConfirmationModal(productId: number) {
-    productToDelete.value = productId;
-    requiresConfirmation.value = true;
-}
-
-function closeConfirmationModal() {
-    requiresConfirmation.value = false;
-    productToDelete.value = null;
-}
-
-// TODO: Move to inertia form helper & composable
-function addProduct(form: ProductForm) {
-    isLoading.value = true;
-
-    router.post(
-        '/add-product',
-        {
-            name: form.name,
-            category_id: form.category_id,
-        },
-        {
-            onFinish: () => {
-                isLoading.value = false;
-
-                // Only close if there are no errors
-                if (Object.keys(props.errors ?? {}).length === 0) {
-                    isOpen.value = false;
-                }
-            },
-        },
-    );
-}
-
-function confirmDeleteProduct() {
-    if (productToDelete.value !== null) {
-        router.post(`/delete-product/${productToDelete.value}`);
-        closeConfirmationModal();
+const shouldShowToast = computed(() => {
+    // If back navigation, clear flag and skip showing toast
+    if (sessionStorage.getItem('isBackNavigation') === 'true') {
+        sessionStorage.removeItem('isBackNavigation');
+        return false;
     }
-}
+
+    return toast.value;
+});
+
+onMounted(() => {
+    window.addEventListener('popstate', () => {
+        sessionStorage.setItem('isBackNavigation', 'true');
+        // Optionally hide any visible toast immediately
+        toast.value = null;
+    });
+});
 </script>
 
 <template>
@@ -117,5 +92,5 @@ function confirmDeleteProduct() {
         v-model:form="form"
     />
     <RequiresConfirmationModal :isOpen="requiresConfirmation" @close="closeConfirmationModal" @confirm="confirmDeleteProduct" />
-    <ToastMessage v-if="toast" :message="toast.message" :type="toast.type" @close="toast = null" />
+    <ToastMessage v-if="shouldShowToast" :message="toast.message" :type="toast.type" :timeout="toast.duration" @close="toast = null" />
 </template>
