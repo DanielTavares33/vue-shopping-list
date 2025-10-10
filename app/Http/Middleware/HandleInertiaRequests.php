@@ -46,8 +46,7 @@ class HandleInertiaRequests extends Middleware
                 'permissions' => [
                     'product' => [
                         'create' => $request->user()?->can('create', Product::class) ?? false,
-                        // 'update' => $request->user()?->can('update', Product::class) ?? false,
-                        // 'delete' => $request->user()?->can('delete', Product::class) ?? false,
+                        'delete' => $request->user()?->can('delete', Product::class) ?? false,
                     ]
                 ]
             ],

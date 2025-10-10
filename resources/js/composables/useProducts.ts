@@ -34,7 +34,7 @@ export function useProducts() {
         productToDelete.value = null;
     }
 
-    function addProduct(formData: ProductForm, errors: Record<string, any>, onFinish?: () => void) {
+    function addProduct(formData: ProductForm) {
         isLoading.value = true;
         router.post(
             '/add-product',
@@ -45,10 +45,6 @@ export function useProducts() {
             {
                 onFinish: () => {
                     isLoading.value = false;
-                    if (Object.keys(errors ?? {}).length === 0) {
-                        isOpen.value = false;
-                    }
-                    if (onFinish) onFinish();
                 },
             },
         );

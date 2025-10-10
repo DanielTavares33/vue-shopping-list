@@ -18,7 +18,6 @@ class HomeController extends Controller
     {
         return Inertia::render('Welcome', [
             'categories' => Category::with('products')->get(),
-            'user' => auth()->user(),
         ]);
     }
 
@@ -34,7 +33,11 @@ class HomeController extends Controller
             'category_id' => $request->input('category_id'),
         ]);
 
-        return to_route('home');
+        return to_route('home')->with('toast', [
+            'message' => 'Product added successfully.',
+            'type' => 'success',
+            'duration' => 3000,
+        ]);
     }
 
     public function addProductToCart(Request $request, AddProductToCart $productToCart): RedirectResponse
@@ -48,6 +51,10 @@ class HomeController extends Controller
     {
         $product->delete();
 
-        return to_route('home');
+        return to_route('home')->with('toast', [
+            'message' => 'Product deleted successfully.',
+            'type' => 'success',
+            'duration' => 3000,
+        ]);
     }
 }

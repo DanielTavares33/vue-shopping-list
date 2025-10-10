@@ -13,7 +13,7 @@ import type { Category } from '@/types/interfaces/models/category';
 import type { Toast } from '@/types/interfaces/toast';
 import { PlusIcon } from '@heroicons/vue/24/outline';
 import { usePage } from '@inertiajs/vue3';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 
 const props = withDefaults(
     defineProps<{
@@ -53,6 +53,19 @@ const shouldShowToast = computed(() => {
     return toast.value;
 });
 
+// Close modal if there are no errors after an attempt to add a product
+watch(() => props.errors, (newErrors) => {
+    if (Object.keys(newErrors).length === 0) {
+        closeModal();
+    }
+});
+
+// Watch for changes in page props to update toast
+watch(() => page.props.toast, (newToast) => {
+    toast.value = newToast as Toast ?? null;
+});
+
+// Watch for changes in toast to reset back navigation flag
 onMounted(() => {
     window.addEventListener('popstate', () => {
         sessionStorage.setItem('isBackNavigation', 'true');
