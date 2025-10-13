@@ -7,6 +7,8 @@ namespace App\Http\Controllers;
 use App\Actions\AddProductToCart;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\User;
+use Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -18,6 +20,12 @@ class HomeController extends Controller
     {
         return Inertia::render('Welcome', [
             'categories' => Category::with('products')->get(),
+            'can' => [
+                'product' => [
+                    'create' => Auth::user()?->can('create', Product::class) ?? false,
+                    'delete' => Auth::user()?->can('delete', new Product()) ?? false,
+                ]
+            ],
         ]);
     }
 

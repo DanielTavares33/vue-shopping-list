@@ -19,6 +19,12 @@ const props = withDefaults(
     defineProps<{
         categories: Array<Category>;
         errors: Record<string, any>;
+        can: {
+            product: {
+                create: boolean;
+                delete: boolean;
+            };
+        };
     }>(),
     {
         errors: () => ({}),
@@ -39,7 +45,6 @@ const {
     confirmDeleteProduct,
 } = useProducts();
 const user = page.props.auth?.user as User | null;
-const permissions = page.props.auth?.permissions;
 
 const toast = ref<Toast | null>((page.props.toast as Toast) ?? null);
 
@@ -81,7 +86,7 @@ onMounted(() => {
 
     <MainLayout>
         <Collapsible v-for="category in props.categories" :key="category.id" :title="category.name" :icon="category.icon">
-            <CategoriesList :category="category" @requestDelete="openConfirmationModal" />
+            <CategoriesList :category="category" @requestDelete="openConfirmationModal" :canDelete="props.can.product.delete" />
         </Collapsible>
     </MainLayout>
 
@@ -90,7 +95,7 @@ onMounted(() => {
         @click="openModal"
         class="btn fixed right-6 bottom-6 flex btn-circle items-center justify-center text-2xl shadow-xl btn-secondary"
         aria-label="Add Product"
-        v-if="user && permissions?.product?.create"
+        v-if="user && props.can.product.create"
     >
         <PlusIcon class="h-6 text-white" />
     </button>

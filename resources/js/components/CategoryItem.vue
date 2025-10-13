@@ -8,10 +8,10 @@ import { defineProps } from 'vue';
 
 const page = usePage();
 const user = page.props.auth?.user as User | null;
-const permissions = page.props.auth?.permissions;
 
 const props = defineProps<{
     product: Product;
+    canDelete?: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -25,7 +25,7 @@ function handleDelete() {
 
 <template>
     <Checkbox :label="props.product.name" :value="props.product.id" />
-    <button v-if="user && permissions?.product?.delete" type="submit" class="right-0 ml-auto cursor-pointer" @click.prevent="handleDelete">
+    <button v-if="user && props.canDelete" type="submit" class="right-0 ml-auto cursor-pointer" @click.prevent="handleDelete">
         <TrashIcon class="h-5 w-5 text-error hover:text-error/70" />
     </button>
 </template>

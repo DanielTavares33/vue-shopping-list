@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ArrowLeftStartOnRectangleIcon, ShoppingCartIcon, UserIcon } from '@heroicons/vue/24/outline';
-import { ArrowDownIcon } from '@heroicons/vue/24/solid';
+import { ArrowLeftStartOnRectangleIcon, ShoppingCartIcon, UserIcon, BuildingStorefrontIcon } from '@heroicons/vue/24/outline';
+import { ArrowDownIcon, BoldIcon } from '@heroicons/vue/24/solid';
 import { Link, router, usePage } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
@@ -44,6 +44,11 @@ function logout() {
                         <ArrowDownIcon class="inline size-4 text-white" />
                     </span>
                     <ul tabindex="0" class="dropdown-content menu z-1 w-42 rounded-box bg-base-100 p-2 shadow-sm">
+                        <li>
+                            <a class="text-base text-black" href="/admin">
+                                <BuildingStorefrontIcon class="inline size-4 text-black" /> Admin Panel
+                            </a>
+                        </li>
                         <li>
                             <a class="text-base text-black" @click.prevent="logout">
                                 <ArrowLeftStartOnRectangleIcon class="inline size-4 text-black" /> Logout

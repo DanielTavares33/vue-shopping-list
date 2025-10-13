@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Middleware;
 
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -43,12 +44,6 @@ class HandleInertiaRequests extends Middleware
             'name' => config('app.name'),
             'auth' => [
                 'user' => $request->user() ? $request->user()->only('id', 'name', 'email') : null,
-                'permissions' => [
-                    'product' => [
-                        'create' => $request->user()?->can('create', Product::class) ?? false,
-                        'delete' => $request->user()?->can('delete', Product::class) ?? false,
-                    ]
-                ]
             ],
             'toast' => fn () => $request->session()->get('toast') ? $request->session()->get('toast') : null,
         ];
