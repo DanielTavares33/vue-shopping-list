@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ArrowLeftStartOnRectangleIcon, ShoppingCartIcon, UserIcon, BuildingStorefrontIcon } from '@heroicons/vue/24/outline';
-import { ArrowDownIcon, BoldIcon } from '@heroicons/vue/24/solid';
+import { ArrowLeftStartOnRectangleIcon, BuildingStorefrontIcon, ShoppingCartIcon, UserIcon } from '@heroicons/vue/24/outline';
+import { ArrowDownIcon } from '@heroicons/vue/24/solid';
 import { Link, router, usePage } from '@inertiajs/vue3';
 import { ref } from 'vue';
 

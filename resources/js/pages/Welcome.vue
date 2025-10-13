@@ -59,16 +59,22 @@ const shouldShowToast = computed(() => {
 });
 
 // Close modal if there are no errors after an attempt to add a product
-watch(() => props.errors, (newErrors) => {
-    if (Object.keys(newErrors).length === 0) {
-        closeModal();
-    }
-});
+watch(
+    () => props.errors,
+    (newErrors) => {
+        if (Object.keys(newErrors).length === 0) {
+            closeModal();
+        }
+    },
+);
 
 // Watch for changes in page props to update toast
-watch(() => page.props.toast, (newToast) => {
-    toast.value = newToast as Toast ?? null;
-});
+watch(
+    () => page.props.toast,
+    (newToast) => {
+        toast.value = (newToast as Toast) ?? null;
+    },
+);
 
 // Watch for changes in toast to reset back navigation flag
 onMounted(() => {
