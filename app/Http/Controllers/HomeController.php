@@ -7,17 +7,24 @@ namespace App\Http\Controllers;
 use App\Actions\AddProductToCart;
 use App\Models\Category;
 use App\Models\Product;
+use Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index(Request $request): Response
     {
         return Inertia::render('Welcome', [
             'categories' => Category::with('products')->get(),
-            'user' => auth()->user(),
+            'can' => [
+                'product' => [
+                    'create' => Auth::user()?->can('create', Product::class) ?? false,
+                    'delete' => Auth::user()?->can('delete', new Product()) ?? false,
+                ]
+            ],
         ]);
     }
 
@@ -33,7 +40,11 @@ class HomeController extends Controller
             'category_id' => $request->input('category_id'),
         ]);
 
-        return to_route('home');
+        return to_route('home')->with('toast', [
+            'message' => 'Product added successfully.',
+            'type' => 'success',
+            'duration' => 3000,
+        ]);
     }
 
     public function addProductToCart(Request $request, AddProductToCart $productToCart): RedirectResponse
@@ -47,6 +58,10 @@ class HomeController extends Controller
     {
         $product->delete();
 
-        return to_route('home');
+        return to_route('home')->with('toast', [
+            'message' => 'Product deleted successfully.',
+            'type' => 'success',
+            'duration' => 3000,
+        ]);
     }
 }

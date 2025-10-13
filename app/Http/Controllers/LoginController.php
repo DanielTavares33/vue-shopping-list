@@ -1,0 +1,54 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\AuthenticateRequest;
+use Auth;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
+
+class LoginController extends Controller
+{
+    public function index(): Response
+    {
+        return Inertia::render('auth/SignIn');
+    }
+
+    public function authenticate(AuthenticateRequest $request): RedirectResponse
+    {
+        if (Auth::attempt($request->validated())) {
+            $request->session()->regenerate();
+
+            return redirect()->intended('/')->with('toast', [
+                'message' => 'Signed in successfully.',
+                'type' => 'success',
+                'duration' => 3000,
+            ]);
+        }
+
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ])->onlyInput('email');
+    }
+
+    public function logout(Request $request): RedirectResponse
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/')->with(
+            'toast',
+            [
+                'message' => 'Logged out successfully.',
+                'type' => 'success',
+                'duration' => 3000
+            ]
+        );
+    }
+}

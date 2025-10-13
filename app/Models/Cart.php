@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -22,13 +24,13 @@ class Cart extends Model
         return $this->belongsTo(Product::class);
     }
 
-    public function incrementQuantity($amount = 1)
+    public function incrementQuantity($amount = 1): void
     {
         $this->quantity += $amount;
         $this->save();
     }
 
-    public function decrementQuantity($amount = 1)
+    public function decrementQuantity($amount = 1): void
     {
         if ($this->quantity - $amount >= 0) {
             $this->quantity -= $amount;
