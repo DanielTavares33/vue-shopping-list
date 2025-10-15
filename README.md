@@ -8,6 +8,10 @@
 
 Vue Shopping List is a modern shopping list application built with Laravel 12 (PHP 8.4), Inertia.js, and Vue 3. It features a clean UI, real-time updates, and a robust backend powered by Filament and Livewire. The app is designed for easy product management, category organization, and seamless cart operations.
 
+### Backoffice
+
+The backoffice (admin panel) is built with [FilamentPHP v4](https://filamentphp.com/), providing a powerful and user-friendly interface for managing products, categories, and users.
+
 ## Features
 
 - 🛍️ Add, edit, and remove products
@@ -23,7 +27,7 @@ Vue Shopping List is a modern shopping list application built with Laravel 12 (P
 
 <p align="center">
   <img src="resources/images/shopping-list-preview.png" alt="Main Shopping List" width="400" />
-  <img src="resources/images/categories-list.png" alt="Categories List" width="400" />
+  <img src="resources/images/add-products.png" alt="Categories List" width="400" />
   <img src="resources/images/cart-view.png" alt="Cart View" width="400" />
 </p>
 
