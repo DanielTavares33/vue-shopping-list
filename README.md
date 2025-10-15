@@ -20,6 +20,11 @@ Vue Shopping List is a modern shopping list application built with Laravel 12 (P
 - 🔒 Authentication (Sign In)
 - 🧩 Modular components for easy extension
 
+## Architecture
+
+- **Frontoffice:** Built with Vue.js 3 for a fast, reactive user experience.
+- **Backoffice:** Built with FilamentPHP v4 for a powerful admin panel.
+
 ## Screenshots
 
 <p align="center">
@@ -103,11 +108,6 @@ Vue Shopping List is a modern shopping list application built with Laravel 12 (P
 ## Contributing
 
 Pull requests are welcome! Please follow the existing code style and conventions. See the [Laravel Boost Guidelines](.github/copilot-instructions.md) for more details.
-
-## Architecture
-
-- **Frontoffice:** Built with Vue.js 3 for a fast, reactive user experience.
-- **Backoffice:** Built with FilamentPHP v4 for a powerful admin panel.
 
 ## License
 
