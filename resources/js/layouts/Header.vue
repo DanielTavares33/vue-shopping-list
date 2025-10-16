@@ -2,10 +2,10 @@
 import { ArrowLeftStartOnRectangleIcon, BuildingStorefrontIcon, ShoppingCartIcon, UserIcon } from '@heroicons/vue/24/outline';
 import { ArrowDownIcon } from '@heroicons/vue/24/solid';
 import { Link, router, usePage } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { reactive, ref, onMounted, onBeforeUnmount } from 'vue';
 
 const title = ref('Grocery List');
-const cartItemCount = ref(2);
+const cartItemCount = reactive({ count: 0 });
 const page = usePage();
 const user = page.props.auth?.user;
 
@@ -18,6 +18,25 @@ function logout() {
         },
     );
 }
+
+function updateCartCount() {
+    const cart = localStorage.getItem('cart');
+    if (cart) {
+        const items = JSON.parse(cart);
+        cartItemCount.count = items.length;
+    } else {
+        cartItemCount.count = 0;
+    }
+}
+
+onMounted(() => {
+    updateCartCount();
+    window.addEventListener('cart-updated', updateCartCount);
+});
+
+onBeforeUnmount(() => {
+    window.removeEventListener('cart-updated', updateCartCount);
+});
 </script>
 
 <template>
@@ -61,7 +80,7 @@ function logout() {
                 <Link href="/cart" class="border-none bg-primary text-white shadow-none">
                     <ShoppingCartIcon class="size-4 md:size-4 lg:size-6" />
                 </Link>
-                <span class="text-sm font-bold">{{ cartItemCount }}</span>
+                <span class="text-sm font-bold">{{ cartItemCount.count }}</span>
             </div>
         </div>
     </header>

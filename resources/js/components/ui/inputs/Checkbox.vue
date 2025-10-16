@@ -4,6 +4,7 @@ import { defineProps, ref } from 'vue';
 const props = defineProps<{
   label?: string;
   value?: number;
+  action: () => void;
 }>();
 
 const isChecked = ref(false);
@@ -14,7 +15,7 @@ function toggle() {
 </script>
 
 <template>
-    <input type="checkbox" class="checkbox checkbox-success" :checked="isChecked" :value="props.value" @change="toggle" />
+    <input type="checkbox" class="checkbox checkbox-success" :checked="isChecked" :value="props.value" @change="toggle" @click="props.action" />
     <span>{{ props.label }}</span>
 </template>
 

@@ -1,4 +1,5 @@
 import type { ProductForm } from '@/types/interfaces/forms/productForm';
+import type { Product } from '@/types/interfaces/models/product';
 import { router } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
@@ -57,6 +58,27 @@ export function useProducts() {
         }
     }
 
+    function addProductToCart(product: Product) {
+        const cart = localStorage.getItem('cart');
+
+        if (cart) {
+            const items = JSON.parse(cart);
+            const existingProduct = items.find((item: Product & { quantity: number }) => item.id === product.id);
+
+            if (existingProduct) {
+                existingProduct.quantity += 1;
+            } else {
+                items.push({ ...product, quantity: 1 });
+            }
+
+            localStorage.setItem('cart', JSON.stringify(items));
+        } else {
+            localStorage.setItem('cart', JSON.stringify([{ ...product, quantity: 1 }]));
+        }
+
+        window.dispatchEvent(new Event('cart-updated'));
+    }
+
     return {
         form,
         isOpen,
@@ -69,5 +91,6 @@ export function useProducts() {
         closeConfirmationModal,
         addProduct,
         confirmDeleteProduct,
+        addProductToCart
     };
 }
